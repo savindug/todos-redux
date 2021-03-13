@@ -1,0 +1,86 @@
+export const sampleTodos = [
+  {
+    id: 1,
+    title: 'felis fusce posuere felis',
+    timestamp: '2020-06-12T18:49:48Z',
+    color: '#fdcb6e',
+    completed: true,
+    priority: 'low',
+  },
+  {
+    id: 2,
+    title: 'condimentum neque sapien placerat ante nulla',
+    timestamp: '2020-02-10T07:02:56Z',
+    color: '#00b894',
+    completed: true,
+    priority: 'medium',
+  },
+  {
+    id: 3,
+    title:
+      'suspendisse ornare consequat lectus in est risus auctor sed tristique in tempus sit amet',
+    timestamp: '2020-08-30T22:42:05Z',
+    color: '#6c5ce7',
+    completed: true,
+    priority: 'low',
+  },
+  {
+    id: 4,
+    title:
+      'platea dictumst maecenas ut massa quis augue luctus tincidunt nulla mollis molestie',
+    timestamp: '2020-10-13T03:25:26Z',
+    color: '#fd79a8',
+    completed: true,
+    priority: 'low',
+  },
+  {
+    id: 5,
+    title: 'sapien ut nunc vestibulum ante ipsum primis in',
+    timestamp: '2020-03-15T17:46:54Z',
+    color: '#fdcb6e',
+    completed: false,
+    priority: 'medium',
+  },
+  {
+    id: 6,
+    title: 'vivamus vestibulum sagittis sapien cum sociis',
+    timestamp: '2020-10-09T12:06:05Z',
+    color: '#00b894',
+    completed: true,
+    priority: 'high',
+  },
+  {
+    id: 7,
+    title:
+      'faucibus orci luctus et ultrices posuere cubilia curae donec pharetra magna vestibulum aliquet ultrices erat tortor sollicitudin',
+    timestamp: '2020-08-29T14:51:38Z',
+    color: '#fd79a8',
+    completed: true,
+    priority: 'high',
+  },
+  {
+    id: 8,
+    title: 'fermentum donec ut mauris',
+    timestamp: '2020-05-21T02:17:00Z',
+    color: '#00b894',
+    completed: false,
+    priority: 'low',
+  },
+  {
+    id: 9,
+    title:
+      'enim lorem ipsum dolor sit amet consectetuer adipiscing elit proin interdum mauris non ligula pellentesque ultrices phasellus',
+    timestamp: '2020-05-17T14:50:07Z',
+    color: '#0984e3',
+    completed: false,
+    priority: 'high',
+  },
+  {
+    id: 10,
+    title: 'molestie nibh in lectus pellentesque at nulla suspendisse potenti',
+    timestamp: '2020-05-26T20:55:13Z',
+    color: '#00b894',
+    completed: true,
+    priority: 'medium',
+  },
+];

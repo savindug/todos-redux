@@ -50,7 +50,15 @@ const todosReducer = (state = initialState, action) => {
     case ACTION_TYPES.SELECT_TODO:
       return {
         ...state,
-        todo: action.payload,
+        todo: state.todoList.map((e) => {
+          if (e.id === action.payload.id) {
+            e.title = action.payload.title;
+            e.priority = action.payload.priority;
+            e.completed = action.payload.completed;
+            e.color = action.payload.color;
+          }
+          return 1;
+        }),
         loading: false,
       };
 
@@ -69,7 +77,9 @@ const todosReducer = (state = initialState, action) => {
     case ACTION_TYPES.DELETE_TODO:
       return {
         ...state,
-        todoList: state.todoList.filter((x) => x.name !== action.payload),
+        todoList: state.todoList.filter(
+          (element) => element.id !== action.payload
+        ),
         loading: false,
       };
     default:
