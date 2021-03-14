@@ -50,9 +50,28 @@ export const TodoList = () => {
     if (searchKey !== null) {
       searchByTitle();
     } else {
-      todoFilter();
+      if (tab === 1 && _priority === 'all') {
+        setTodoListFilter(todoList.filter((e) => e.completed === true));
+      }
+      if (tab === 1 && _priority !== 'all') {
+        setTodoListFilter(
+          todoList.filter(
+            (e) => e.completed === true && e.priority.includes(_priority)
+          )
+        );
+      }
+      if (tab === 0 && _priority === 'all') {
+        setTodoListFilter(todoList.filter((e) => e.completed === false));
+      }
+      if (tab === 0 && _priority !== 'all') {
+        setTodoListFilter(
+          todoList.filter(
+            (e) => e.completed === false && e.priority.includes(_priority)
+          )
+        );
+      }
     }
-  }, [searchKey, dispatch]);
+  }, [searchKey, tab, _priority]);
   const todoFilter = () => {
     if (tab === 1 && _priority === 'all') {
       setTodoListFilter(todoList.filter((e) => e.completed === true));
@@ -136,7 +155,6 @@ export const TodoList = () => {
               placeholder="Search"
               aria-label="Search"
               aria-describedby="basic-addon2"
-              value={searchKey}
               onChange={(e) => setsearchKey(e.target.value)}
             />
           </Col>
