@@ -166,6 +166,7 @@ export const AddTodo = (props) => {
                     setcolorPallet(e.target.value);
                   }}
                 >
+                  <option>Color</option>
                   {colors.map((x) => (
                     <option
                       className="text-capitalize"

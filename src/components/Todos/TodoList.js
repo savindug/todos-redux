@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
   Alert,
+  Badge,
   Button,
   Col,
   Container,
@@ -20,7 +21,8 @@ export const TodoList = () => {
   const [modalShow, setModalShow] = useState(false);
   const [group, setGroup] = useState(0);
   const [_priority, set_priority] = useState('all');
-  const [renderGroups, setRenderGroups] = useState(true);
+  // const [renderGroups, setRenderGroups] = useState(true);
+  const [searchKey, setsearchKey] = useState('');
 
   const [tabularNavCls] = useState(
     'bg-secondary text-light border-bottom-0 border-secondary'
@@ -36,58 +38,66 @@ export const TodoList = () => {
     dispatch(fetchTodos());
   }, [dispatch]);
 
-  const searchByTitle = (key) => {
-    console.log('key => ' + key);
-    setTodoListFilter(
-      todoListFilter.filter((e) => key === '' || e.title.includes(key))
-    );
-  };
+  useEffect(() => {
+    const searchByTitle = () => {
+      setTodoListFilter(
+        todoListFilter.filter(
+          (e) => searchKey === '' || e.title.includes(searchKey)
+        )
+      );
+    };
 
-  const resnderByGroups = () => {
-    if (group === 1) {
-      setRenderGroups(
-        todoListFilter.reduce(function (r, a) {
-          r[a.color] = r[a.color] || [];
-          r[a.color].push(a);
-          return r;
-        }, Object.create(null))
+    if (searchKey !== null) {
+      searchByTitle();
+    } else {
+      todoFilter();
+    }
+  }, [searchKey, dispatch]);
+  const todoFilter = () => {
+    if (tab === 1 && _priority === 'all') {
+      setTodoListFilter(todoList.filter((e) => e.completed === true));
+    }
+    if (tab === 1 && _priority !== 'all') {
+      setTodoListFilter(
+        todoList.filter(
+          (e) => e.completed === true && e.priority.includes(_priority)
+        )
       );
     }
-    if (group === 2) {
-      setRenderGroups(
-        todoListFilter.reduce(function (r, a) {
-          r[a.priority] = r[a.priority] || [];
-          r[a.priority].push(a);
-          return r;
-        }, Object.create(null))
+    if (tab === 0 && _priority === 'all') {
+      setTodoListFilter(todoList.filter((e) => e.completed === false));
+    }
+    if (tab === 0 && _priority !== 'all') {
+      setTodoListFilter(
+        todoList.filter(
+          (e) => e.completed === false && e.priority.includes(_priority)
+        )
       );
     }
-    console.log(renderGroups);
   };
+  // const resnderByGroups = () => {
+  //   if (group === 1) {
+  //     setRenderGroups(
+  //       todoListFilter.reduce(function (r, a) {
+  //         r[a.color] = r[a.color] || [];
+  //         r[a.color].push(a);
+  //         return r;
+  //       }, Object.create(null))
+  //     );
+  //   }
+  //   if (group === 2) {
+  //     setRenderGroups(
+  //       todoListFilter.reduce(function (r, a) {
+  //         r[a.priority] = r[a.priority] || [];
+  //         r[a.priority].push(a);
+  //         return r;
+  //       }, Object.create(null))
+  //     );
+  //   }
+  //   console.log(renderGroups);
+  // };
 
   useEffect(() => {
-    const todoFilter = () => {
-      if (tab === 1 && _priority === 'all') {
-        setTodoListFilter(todoList.filter((e) => e.completed === true));
-      }
-      if (tab === 1 && _priority !== 'all') {
-        setTodoListFilter(
-          todoList.filter(
-            (e) => e.completed === true && e.priority.includes(_priority)
-          )
-        );
-      }
-      if (tab === 0 && _priority === 'all') {
-        setTodoListFilter(todoList.filter((e) => e.completed === false));
-      }
-      if (tab === 0 && _priority !== 'all') {
-        setTodoListFilter(
-          todoList.filter(
-            (e) => e.completed === false && e.priority.includes(_priority)
-          )
-        );
-      }
-    };
     todoFilter();
   }, [tab, todoList, _priority]);
 
@@ -126,10 +136,24 @@ export const TodoList = () => {
               placeholder="Search"
               aria-label="Search"
               aria-describedby="basic-addon2"
-              onChange={(e) => searchByTitle(e.target.value)}
+              value={searchKey}
+              onChange={(e) => setsearchKey(e.target.value)}
             />
           </Col>
-          <Col md={3} className="d-flex text-right justify-content-end">
+          <Col md={1}>
+            {searchKey !== '' ? (
+              <Badge variant="secondary">
+                {searchKey}
+                <i
+                  class="fas fa-times-circle"
+                  onClick={() => setsearchKey(null)}
+                ></i>
+              </Badge>
+            ) : (
+              <></>
+            )}
+          </Col>
+          <Col md={2} className="d-flex text-right justify-content-end">
             <Button
               className="my-auto"
               variant="primary"
@@ -206,7 +230,6 @@ export const TodoList = () => {
       ) : (
         todoListFilter.map((e) => <TodoItem todo={e} />)
       )}
-      {resnderByGroups()}
     </Container>
   );
 };
