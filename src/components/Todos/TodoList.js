@@ -20,26 +20,7 @@ export const TodoList = () => {
   const [modalShow, setModalShow] = useState(false);
   const [group, setGroup] = useState(0);
   const [_priority, set_priority] = useState('all');
-
-  //   const todo = {
-  //     id: '',
-  //     title: '',
-  //     status: '',
-  //     priority: '',
-  //     color: '',
-  //     timestamp: '',
-  //   };
-
-  //   const colors = [
-  //     'primary',
-  //     'secondary',
-  //     'success',
-  //     'danger',
-  //     'warning',
-  //     'info',
-  //     'light',
-  //     'dark',
-  //   ];
+  const [renderGroups, setRenderGroups] = useState(true);
 
   const [tabularNavCls] = useState(
     'bg-secondary text-light border-bottom-0 border-secondary'
@@ -53,7 +34,6 @@ export const TodoList = () => {
 
   useEffect(() => {
     dispatch(fetchTodos());
-    //console.log(tab);
   }, [dispatch]);
 
   const searchByTitle = (key) => {
@@ -61,6 +41,28 @@ export const TodoList = () => {
     setTodoListFilter(
       todoListFilter.filter((e) => key === '' || e.title.includes(key))
     );
+  };
+
+  const resnderByGroups = () => {
+    if (group === 1) {
+      setRenderGroups(
+        todoListFilter.reduce(function (r, a) {
+          r[a.color] = r[a.color] || [];
+          r[a.color].push(a);
+          return r;
+        }, Object.create(null))
+      );
+    }
+    if (group === 2) {
+      setRenderGroups(
+        todoListFilter.reduce(function (r, a) {
+          r[a.priority] = r[a.priority] || [];
+          r[a.priority].push(a);
+          return r;
+        }, Object.create(null))
+      );
+    }
+    console.log(renderGroups);
   };
 
   useEffect(() => {
@@ -76,16 +78,17 @@ export const TodoList = () => {
         );
       }
       if (tab === 0 && _priority === 'all') {
-        setTodoListFilter(todoList);
+        setTodoListFilter(todoList.filter((e) => e.completed === false));
       }
       if (tab === 0 && _priority !== 'all') {
         setTodoListFilter(
-          todoList.filter((e) => e.priority.includes(_priority))
+          todoList.filter(
+            (e) => e.completed === false && e.priority.includes(_priority)
+          )
         );
       }
     };
     todoFilter();
-    //console.log(tab);
   }, [tab, todoList, _priority]);
 
   const TabularNav = () => {
@@ -113,8 +116,8 @@ export const TodoList = () => {
     );
   };
 
-  const FiltersLayout = () => {
-    return (
+  return (
+    <Container className="my-5">
       <>
         <Row className="my-5 mx-auto">
           <Col md={9}>
@@ -137,12 +140,6 @@ export const TodoList = () => {
           </Col>
         </Row>
       </>
-    );
-  };
-
-  return (
-    <Container className="my-5">
-      <FiltersLayout></FiltersLayout>
       <Row>
         <Col md={4} className="d-flex justify-content-start">
           Filter By
@@ -209,6 +206,7 @@ export const TodoList = () => {
       ) : (
         todoListFilter.map((e) => <TodoItem todo={e} />)
       )}
+      {resnderByGroups()}
     </Container>
   );
 };

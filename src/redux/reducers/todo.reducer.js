@@ -32,6 +32,7 @@ const todosReducer = (state = initialState, action) => {
       return {
         ...state,
         todo: action.payload,
+        todoList: [...state.todoList, action.payload],
         loading: false,
       };
 
